@@ -1,0 +1,92 @@
+<?php
+	
+	require 'includes/dbca.inc.php';
+	require "header.php";
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabla</title>
+</head>
+<link type="text/css" rel="stylesheet" href="style/styleportal.css">
+<script src = "portal.js" type = "text/javascript"/></script>
+<body>
+	<section>
+        <h2> MI EMPRESA</h2>
+        <div class="tab">
+            <button class="tablinks" onclick="window.location.href='createcase.html'">Crear caso</button>
+            <button class="tablinks" onclick="window.location.href='newcases.php'">Nuevos casos</button>
+            <button class="tablinks" onclick="window.location.href='juzgado2.php'">En el juzgado</button>
+            <button class="tablinks" onclick="window.location.href='sentencia3.php'">Sentencia</button>            
+            <button class="tablinks" onclick="window.location.href='apelacion4.php'" style = "background-color: black; color: white">Apelacion</button>
+            <button class="tablinks" onclick="window.location.href='ejecutoria5.php'">Ejecutoria</button>
+            <button class="tablinks" onclick="window.location.href='cerrado6.php'">Asuntos cerrados</button>
+            <button class="tablinks" onclick="window.location.href='buscar7.php'">Buscador</button><br><br><br>
+        </div><br>
+        <div class="tab">
+     <!-- Tab content 'apelacion'. -->      
+        
+          <h3>Se ha recurrido la sentencia y se esta a la espera de que se dicte una nueva sentencia</h3><br>
+          <p>Seleccionar la fecha de esta nueva sentencia, Si se gano la tasa judicial, marcarla. .</p>
+		   <p>Si se gano los honorarios en apelacion, marcar la casilla.</p><br>
+          <table style="width:100%" id="t01">
+			<tr>
+                <th>N incidencia</th>
+                <th>Contra</th>
+                <th>Deuda</th>
+                <th>Desde juzgado</th>
+                <th>A juzgado</th>
+				<th>Fecha sentencia</th>
+                    			
+            </tr>
+            
+            
+    
+	  <!-- Aqui esta lo que no se muestra si esta en HTML. -->
+          	<?php   /*add information from sql and add information to table*/
+          	
+	  /*<!-- esta linea de codigo que si se muestre en php. --> */
+			  $sqlc="SELECT * FROM gestion WHERE judicialdate IS NOT NULL AND appeal = 1 AND appealdate IS NULL";
+			  $result=mysqli_query($conn,$sqlc);
+
+			  while($mostrar4=mysqli_fetch_array($result)){
+			  ?>
+                            
+              <tr>
+               	<td><?php echo $mostrar4['id']?></td>
+               	<td><?php echo $mostrar4['defendant']?></td>
+               	<td><?php echo $mostrar4['judicialdebt'], ' ',$mostrar4['currency']?></td>
+               	<td><?php echo $mostrar4['plaintiffcountry']?></td>
+               	<td><?php echo $mostrar4['defendantcountry']?></td>
+    <!-- Button. -->
+               	<form method='POST' action="actions/appealend.php">
+					<td><input type="hidden" id="hiddenid" name = "hiddenid" value="<?php echo $mostrar4['id']?>"/>
+               		 <input type="date" name="appealdecisiondate">
+               		 
+                	<input type="text" name="money_case" placeholder="Deuda ganada" style="width: 200px;"> <input type="submit"  name = "appealdecision" onclick="alert('Introducido datos!')"  value="Guardar">
+				     <input type="checkbox" name="fee_win_sue" value= 1>Tasa judicial ganada<br>
+				     <input type="checkbox" name="fee_lawyer" value = 1>Honorarios abogado demandante ganado en primera sentencia<br>
+					 <input type="checkbox" name="fee_lawyer_apelacion" >Honorarios abogado demandante ganado en apelacion
+                     </td>
+                   
+				</form>
+				
+ <!-- FALTA CONECTAR LOS CHECKBOX Y MONEY CASE'. -->  				
+                
+              </tr>
+              <?php
+			 }
+			 ?>
+		  
+          </table>
+        </div>
+
+	</section>
+
+</body>
+</html>
+
+        
