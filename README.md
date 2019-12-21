@@ -1,9 +1,14 @@
 # portal
 portal. 
 orden folder 
-Portal --> actions
-       --> inlcudes
+rodri
+       index.php
+       --> modelo
+              mper.php
+              config.php
+              configuracion.php
+       --> vistas
+              vper.php
+       --> controlador
+              cper.php
        
-       
-Actions is buttons reactions. 
-Includes 
